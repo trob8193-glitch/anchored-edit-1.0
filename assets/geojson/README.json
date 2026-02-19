@@ -1,0 +1,5 @@
+{
+  "_comment": "Place GeoJSON territory definition files here.",
+  "_example": "neighborhoods.geojson, cities.geojson, etc.",
+  "_format": "Each Feature should have properties: id, name, level (neighborhood|city|state|country|continent)"
+}
