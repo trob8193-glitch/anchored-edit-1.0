@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import '../../models/territory.dart';
+import '../models/territory.dart';
+import '../models/npc_agent.dart';
 
 /// Renders circle markers for a list of territory zones.
 class TerritoryLayerWidget extends StatelessWidget {
@@ -15,11 +16,11 @@ class TerritoryLayerWidget extends StatelessWidget {
   final void Function(Territory)? onTap;
 
   static Color _levelBorderColor(TerritoryLevel level) => switch (level) {
-        TerritoryLevel.continent => const Color(0xFFFF6B35),
-        TerritoryLevel.country => const Color(0xFF9B59B6),
-        TerritoryLevel.state => const Color(0xFF3498DB),
-        TerritoryLevel.city => const Color(0xFF2ECC71),
-        TerritoryLevel.neighborhood => const Color(0xFF00C2FF),
+        TerritoryLevel.continent => const Color(0xFFFF6B35),  // hot orange
+        TerritoryLevel.country  => const Color(0xFFBF5FFF),  // neon purple
+        TerritoryLevel.state    => const Color(0xFF00C2FF),  // cyan
+        TerritoryLevel.city     => const Color(0xFF39FF14),  // neon green
+        TerritoryLevel.neighborhood => const Color(0xFF00FFD1), // mint
       };
 
   @override
@@ -35,12 +36,16 @@ class TerritoryLayerWidget extends StatelessWidget {
         radius: t.radiusMeters,
         useRadiusInMeter: true,
         color: t.isContested
-            ? Colors.orange.withAlpha(50)
+            ? Colors.orange.withAlpha(90)
             : owned
-                ? baseColor.withAlpha(70)
-                : baseColor.withAlpha(30),
-        borderColor: t.isContested ? Colors.orange : baseColor,
-        borderStrokeWidth: t.isContested ? 3 : (owned ? 2 : 1),
+                ? baseColor.withAlpha(110)
+                : baseColor.withAlpha(55),
+        borderColor: t.isContested
+            ? Colors.orange
+            : owned
+                ? baseColor
+                : baseColor.withAlpha(200),
+        borderStrokeWidth: t.isContested ? 4 : (owned ? 3 : 2),
       );
     }).toList();
 
@@ -62,17 +67,40 @@ class TerritoryLabelLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final markers = territories.map((t) {
+      final isNpc = t.ownerId?.startsWith('npc_') ?? false;
+      final npcColor = (isNpc && t.color != null)
+          ? Color(t.color!)
+          : null;
+
       return Marker(
         point: LatLng(t.lat, t.lng),
-        width: 130,
-        height: 52,
+        width: 140,
+        height: 64,
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: onTap != null ? () => onTap!(t) : null,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Contested badge
-              if (t.isContested)
+              // NPC faction badge
+              if (isNpc && t.ownerDisplayName != null)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: npcColor?.withAlpha(200) ?? Colors.redAccent,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    t.ownerDisplayName!,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                )
+              else if (t.isContested)
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
@@ -96,13 +124,19 @@ class TerritoryLabelLayer extends StatelessWidget {
                   vertical: 2,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(160),
+                  color: isNpc
+                      ? npcColor?.withAlpha(40) ?? Colors.black.withAlpha(160)
+                      : Colors.black.withAlpha(160),
+                  border: isNpc
+                      ? Border.all(
+                          color: npcColor ?? Colors.redAccent, width: 1)
+                      : null,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   t.name,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: isNpc ? (npcColor ?? Colors.white) : Colors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
@@ -110,7 +144,7 @@ class TerritoryLabelLayer extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              if (t.isClaimed && t.ownerDisplayName != null)
+              if (!isNpc && t.isClaimed && t.ownerDisplayName != null)
                 Text(
                   t.ownerDisplayName!,
                   style: const TextStyle(
@@ -223,5 +257,59 @@ class TerritoryLabelMarker extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+// ── NPC Agent dot layer ───────────────────────────────────────────────────────
+
+/// Renders faction-colored dots for every active NPC agent on the map.
+class NpcAgentLayer extends StatelessWidget {
+  const NpcAgentLayer({super.key, required this.agents});
+  final List<NpcAgent> agents;
+
+  @override
+  Widget build(BuildContext context) {
+    final markers = agents.map((a) {
+      final fc = a.faction.color;
+      return Marker(
+        point: a.position,
+        width: 44,
+        height: 44,
+        child: Tooltip(
+          message: a.fullTitle,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: fc.withAlpha(80), width: 2),
+                  color: fc.withAlpha(20),
+                ),
+              ),
+              Container(
+                width: 22,
+                height: 22,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: fc.withAlpha(220),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                ),
+                child: Center(
+                  child: Text(
+                    a.faction.emoji,
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }).toList();
+
+    return MarkerLayer(markers: markers);
   }
 }
