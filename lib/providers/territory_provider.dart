@@ -37,9 +37,9 @@ final territoryChildrenProvider =
   final territoriesAsync = ref.watch(territoriesProvider);
   return territoriesAsync.whenData((territories) {
     final Map<String, List<Territory>> map = {};
-    for (final t in territories) {
-      if (t.parentId != null) {
-        map.putIfAbsent(t.parentId!, () => []).add(t);
+    for (final territory in territories) {
+      if (territory.parentId != null) {
+        map.putIfAbsent(territory.parentId!, () => []).add(territory);
       }
     }
     return map;
@@ -54,12 +54,12 @@ final territoryDominantOwnerProvider =
   final children = ref.watch(territoryChildrenProvider)[parentId] ?? [];
   if (children.isEmpty) return null;
 
-  final owned = children.where((t) => t.isClaimed);
+  final owned = children.where((territory) => territory.isClaimed);
   if (owned.isEmpty) return null;
 
   final Map<String, int> counts = {};
-  for (final t in owned) {
-    counts[t.ownerId!] = (counts[t.ownerId!] ?? 0) + 1;
+  for (final territory in owned) {
+    counts[territory.ownerId!] = (counts[territory.ownerId!] ?? 0) + 1;
   }
 
   var maxCount = 0;

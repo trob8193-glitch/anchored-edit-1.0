@@ -66,7 +66,7 @@ class NpcNotifier extends StateNotifier<List<NpcAgent>> {
     for (final agent in state) {
       final targetId = agent.homeTerritoryId;
       if (targetId == null) continue;
-      final exists = territories.any((t) => t.id == targetId);
+      final exists = territories.any((territory) => territory.id == targetId);
       if (!exists) continue;
       _claim(agent, targetId);
     }
@@ -85,11 +85,11 @@ class NpcNotifier extends StateNotifier<List<NpcAgent>> {
 
   void _startAiLoop() {
     // First tick after 8s so player sees action quickly
-    Future.delayed(const Duration(seconds: 8), _tick);
-    _aiTimer = Timer.periodic(const Duration(seconds: 55), (_) => _tick());
+    Future.delayed(const Duration(seconds: 8), _performAiTick);
+    _aiTimer = Timer.periodic(const Duration(seconds: 55), (_) => _performAiTick());
   }
 
-  void _tick() {
+  void _performAiTick() {
     final territories =
         _ref.read(territoriesProvider).valueOrNull ?? [];
     if (territories.isEmpty) return;
@@ -187,7 +187,7 @@ class NpcNotifier extends StateNotifier<List<NpcAgent>> {
         .where((pair) => pair.$2 < 80)
         .toList()
       ..sort((a, b) => a.$2.compareTo(b.$2));
-    return withDist.take(5).map((p) => p.$1).toList();
+    return withDist.take(5).map((territoryDistancePair) => territoryDistancePair.$1).toList();
   }
 
   NpcAgent _defaultEnemy(Territory t) {
