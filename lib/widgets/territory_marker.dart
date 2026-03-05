@@ -15,21 +15,13 @@ class TerritoryLayerWidget extends StatelessWidget {
   final List<Territory> territories;
   final void Function(Territory)? onTap;
 
-  static Color _levelBorderColor(TerritoryLevel level) => switch (level) {
-        TerritoryLevel.continent => const Color(0xFFFF6B35),  // hot orange
-        TerritoryLevel.country  => const Color(0xFFBF5FFF),  // neon purple
-        TerritoryLevel.state    => const Color(0xFF00C2FF),  // cyan
-        TerritoryLevel.city     => const Color(0xFF39FF14),  // neon green
-        TerritoryLevel.neighborhood => const Color(0xFF00FFD1), // mint
-      };
-
   @override
   Widget build(BuildContext context) {
     final circles = territories.map((t) {
       final owned = t.isClaimed && t.color != null;
       final baseColor = owned
           ? Color(t.color!)
-          : _levelBorderColor(t.level);
+          : t.level.color;
 
       return CircleMarker(
         point: LatLng(t.lat, t.lng),
