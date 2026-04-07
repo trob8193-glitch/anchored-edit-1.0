@@ -70,9 +70,11 @@ class DeliveryOrder {
   final String destinationAddress;
   final List<DeliveryOrderItem> items;
 
-  factory DeliveryOrder.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory DeliveryOrder.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
-    final statusRaw = (data['status'] as String?) ?? DeliveryOrderStatus.orderConfirmed.name;
+    final statusRaw =
+        (data['status'] as String?) ?? DeliveryOrderStatus.orderConfirmed.name;
     final status = DeliveryOrderStatus.values.firstWhere(
       (s) => s.name == statusRaw,
       orElse: () => DeliveryOrderStatus.orderConfirmed,
@@ -112,7 +114,8 @@ class VendorCatalogItem {
   final int priceCents;
   final bool isActive;
 
-  factory VendorCatalogItem.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory VendorCatalogItem.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
     return VendorCatalogItem(
       id: doc.id,
@@ -240,9 +243,10 @@ class DeliveryTrainingModule {
   final String? quizId;
   final List<String> safetyNotes;
 
-  String get durationLabel => '${durationMinutes} min';
+  String get durationLabel => '$durationMinutes min';
 
-  factory DeliveryTrainingModule.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory DeliveryTrainingModule.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
     return DeliveryTrainingModule(
       id: doc.id,
@@ -283,7 +287,8 @@ class WalkerTrainingProgress {
     return WalkerTrainingProgress(walkerId: walkerId);
   }
 
-  factory WalkerTrainingProgress.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory WalkerTrainingProgress.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
     return WalkerTrainingProgress(
       walkerId: (data['walkerId'] as String?) ?? doc.id,
@@ -338,7 +343,8 @@ class DeliveryQuizQuestion {
     return a.length == b.length && a.containsAll(b);
   }
 
-  factory DeliveryQuizQuestion.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory DeliveryQuizQuestion.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
     final typeRaw = (data['type'] as String?) ?? 'singleChoice';
     final type = typeRaw == 'multiChoice'
@@ -351,7 +357,8 @@ class DeliveryQuizQuestion {
       type: type,
       options: optionsRaw
           .map((e) => DeliveryQuizOption.fromMap(
-              (e as Map?)?.cast<String, dynamic>() ?? const <String, dynamic>{}))
+              (e as Map?)?.cast<String, dynamic>() ??
+                  const <String, dynamic>{}))
           .toList(),
       correctOptionIds: ((data['correctOptionIds'] as List?) ?? const [])
           .map((e) => e.toString())
@@ -362,13 +369,15 @@ class DeliveryQuizQuestion {
 }
 
 class DeliveryQuiz {
-  const DeliveryQuiz({required this.id, required this.title, this.description = ''});
+  const DeliveryQuiz(
+      {required this.id, required this.title, this.description = ''});
 
   final String id;
   final String title;
   final String description;
 
-  factory DeliveryQuiz.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory DeliveryQuiz.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? const <String, dynamic>{};
     return DeliveryQuiz(
       id: doc.id,

@@ -28,7 +28,7 @@ class NpcAgent {
   int get power => faction.basePower + type.powerBonus;
 
   /// ownerId written into Territory when this agent claims it
-  String get ownerId => 'npc_${id}';
+  String get ownerId => 'npc_$id';
 
   /// Display name written into Territory.ownerDisplayName
   String get displayName => '${faction.tag} $name';

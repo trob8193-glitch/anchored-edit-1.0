@@ -1,17 +1,42 @@
-# anchored
+# Anchored
 
-A new Flutter project.
+Anchored is a Flutter app focused on location-based territory gameplay with role-based surfaces and delivery/training modules.
 
-## Getting Started
+## Project Status
 
-This project is a starting point for a Flutter application.
+- Branch: `main`
+- CI: GitHub Actions workflow at `.github/workflows/flutter-ci.yml`
+- Local quality gate: `flutter analyze` and `flutter test --no-pub`
 
-A few resources to get you started if this is your first Flutter project:
+## Local Development
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+1. Install Flutter stable.
+2. Run dependency install:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+```
+
+3. Run static checks:
+
+```bash
+flutter analyze
+flutter test --no-pub
+```
+
+4. Launch app:
+
+```bash
+flutter run
+```
+
+## Production and Compliance Docs
+
+- Privacy policy: `docs/PRIVACY_POLICY.md`
+- Terms of service: `docs/TERMS_OF_SERVICE.md`
+- Permissions rationale: `docs/PERMISSIONS_MATRIX.md`
+
+## Release Notes
+
+- Ensure production Firebase keys/config are set for your target environment.
+- Re-validate permissions and disclosure text before each store submission.
