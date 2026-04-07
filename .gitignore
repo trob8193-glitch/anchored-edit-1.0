@@ -28,6 +28,14 @@ node_modules/
 **/android/.gradle/
 **/android/local.properties
 
+# IDE metadata in app worktrees
+apps/mobile/.idea/
+apps/mobile/*.iml
+
+# Unrelated local sandboxes and generated outputs
+example/
+functions/
+
 # Logs
 *.log
 flutter_run_log.txt
