@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 /// Geographic hierarchy level of a territory zone.
 enum TerritoryLevel {
@@ -22,6 +23,16 @@ enum TerritoryLevel {
         TerritoryLevel.state => 20,
         TerritoryLevel.country => 100,
         TerritoryLevel.continent => 500,
+      };
+
+  /// Canonical neon display color for this level, used across map markers,
+  /// leaderboard chips, and profile stats.
+  Color get color => switch (this) {
+        TerritoryLevel.continent    => const Color(0xFFFF6B35), // hot orange
+        TerritoryLevel.country      => const Color(0xFFBF5FFF), // neon purple
+        TerritoryLevel.state        => const Color(0xFF00C2FF), // cyan
+        TerritoryLevel.city         => const Color(0xFF39FF14), // neon green
+        TerritoryLevel.neighborhood => const Color(0xFF00FFD1), // mint
       };
 }
 

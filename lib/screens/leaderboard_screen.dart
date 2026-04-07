@@ -233,17 +233,9 @@ class _LevelChip extends StatelessWidget {
   final String label;
   final TerritoryLevel level;
 
-  static Color _colorFor(TerritoryLevel l) => switch (l) {
-        TerritoryLevel.continent => const Color(0xFFFF6B35),
-        TerritoryLevel.country => const Color(0xFF9B59B6),
-        TerritoryLevel.state => const Color(0xFF3498DB),
-        TerritoryLevel.city => const Color(0xFF2ECC71),
-        TerritoryLevel.neighborhood => AppTheme.primary,
-      };
-
   @override
   Widget build(BuildContext context) {
-    final color = _colorFor(level);
+    final color = level.color;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
       decoration: BoxDecoration(

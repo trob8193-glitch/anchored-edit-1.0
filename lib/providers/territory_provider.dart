@@ -79,43 +79,39 @@ class TerritoryNotifier extends Notifier<AsyncValue<void>> {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
+  Future<void> _run(Future<void> Function() fn) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(fn);
+  }
+
   Future<void> claim({
     required String territoryId,
     required String ownerId,
     required String ownerDisplayName,
     required int color,
-  }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () => ref.read(territoryRepositoryProvider).claimTerritory(
-            territoryId: territoryId,
-            ownerId: ownerId,
-            ownerDisplayName: ownerDisplayName,
-            color: color,
-          ),
-    );
-  }
+  }) =>
+      _run(
+        () => ref.read(territoryRepositoryProvider).claimTerritory(
+              territoryId: territoryId,
+              ownerId: ownerId,
+              ownerDisplayName: ownerDisplayName,
+              color: color,
+            ),
+      );
 
-  Future<void> release(String territoryId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () =>
-          ref.read(territoryRepositoryProvider).releaseTerritory(territoryId),
-    );
-  }
+  Future<void> release(String territoryId) =>
+      _run(() => ref.read(territoryRepositoryProvider).releaseTerritory(territoryId));
 
   Future<void> startContest({
     required String territoryId,
     required String challengerUid,
-  }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () => ref.read(territoryRepositoryProvider).contestTerritory(
-            territoryId: territoryId,
-            challengerUid: challengerUid,
-          ),
-    );
-  }
+  }) =>
+      _run(
+        () => ref.read(territoryRepositoryProvider).contestTerritory(
+              territoryId: territoryId,
+              challengerUid: challengerUid,
+            ),
+      );
 
   Future<void> resolveContest({
     required String territoryId,
@@ -123,18 +119,16 @@ class TerritoryNotifier extends Notifier<AsyncValue<void>> {
     String? challengerUid,
     String? challengerDisplayName,
     int? challengerColor,
-  }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () => ref.read(territoryRepositoryProvider).resolveContest(
-            territoryId: territoryId,
-            challengerWins: challengerWins,
-            challengerUid: challengerUid,
-            challengerDisplayName: challengerDisplayName,
-            challengerColor: challengerColor,
-          ),
-    );
-  }
+  }) =>
+      _run(
+        () => ref.read(territoryRepositoryProvider).resolveContest(
+              territoryId: territoryId,
+              challengerWins: challengerWins,
+              challengerUid: challengerUid,
+              challengerDisplayName: challengerDisplayName,
+              challengerColor: challengerColor,
+            ),
+      );
 }
 
 final territoryNotifierProvider =

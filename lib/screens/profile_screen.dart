@@ -187,13 +187,13 @@ class _StatsGrid extends StatelessWidget {
       _StatItem('TOTAL',
           '${stats.territories.length}', Colors.white70),
       _StatItem(
-          'CONTINENTS', '${stats.continentCount}', const Color(0xFFFF6B35)),
+          'CONTINENTS', '${stats.continentCount}', TerritoryLevel.continent.color),
       _StatItem(
-          'COUNTRIES', '${stats.countryCount}', const Color(0xFF9B59B6)),
-      _StatItem('STATES', '${stats.stateCount}', const Color(0xFF3498DB)),
-      _StatItem('CITIES', '${stats.cityCount}', const Color(0xFF2ECC71)),
+          'COUNTRIES', '${stats.countryCount}', TerritoryLevel.country.color),
+      _StatItem('STATES', '${stats.stateCount}', TerritoryLevel.state.color),
+      _StatItem('CITIES', '${stats.cityCount}', TerritoryLevel.city.color),
       _StatItem(
-          'HOODS', '${stats.neighborhoodCount}', AppTheme.primary),
+          'HOODS', '${stats.neighborhoodCount}', TerritoryLevel.neighborhood.color),
     ];
 
     return GridView.count(
