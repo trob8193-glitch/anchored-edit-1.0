@@ -1,0 +1,3 @@
+class LeashUpState {
+  const LeashUpState();
+}
