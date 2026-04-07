@@ -1,66 +1,33 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-*.swo
+# OS / Editor
 .DS_Store
 Thumbs.db
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+*.swp
+*.swo
 
 # Python
 .venv/
 __pycache__/
+*.pyc
 .pytest_cache/
 
 # Node / JS
 node_modules/
 .npm/
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-**/ios/Flutter/ephemeral/
-**/ios/Flutter/Flutter.podspec
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/flutter_export_environment.sh
+# Dart / Flutter
 **/.dart_tool/
 **/.flutter-plugins
 **/.flutter-plugins-dependencies
 **/.pub/
 **/build/
 **/coverage/
-.pub-cache/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio / Gradle
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
 **/android/.gradle/
 **/android/local.properties
-/android/app/debug
-/android/app/profile
-/android/app/release
 
 # Logs
+*.log
 flutter_run_log.txt
