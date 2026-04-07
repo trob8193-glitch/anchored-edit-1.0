@@ -3,7 +3,9 @@
 *.log
 *.pyc
 *.swp
+*.swo
 .DS_Store
+Thumbs.db
 .atom/
 .build/
 .buildlog/
@@ -23,15 +25,29 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Node / JS
+node_modules/
+.npm/
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins-dependencies
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.pub/
+**/build/
+**/coverage/
 .pub-cache/
-.pub/
-/build/
-/coverage/
 
 # Symbolication related
 app.*.symbols
@@ -39,7 +55,12 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# Android Studio / Gradle
+**/android/.gradle/
+**/android/local.properties
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Logs
+flutter_run_log.txt

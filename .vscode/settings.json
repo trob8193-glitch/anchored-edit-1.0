@@ -1,0 +1,24 @@
+{
+    "git.openRepositoryInParentFolders": "never",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cmake.sourceDirectory": "C:/Users/Noname/leash up/apps/mobile/windows",
+    "workbench.editorAssociations": {
+        "*.svg": "default",
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.sprite": "d2rmodding.spriteViewer"
+    },
+    "jigx.isJigxUser": false,
+    "jigx.attachedDevice": "",
+    "chat.tools.terminal.autoApprove": {
+        "dart": true,
+        "/^cd \"c:\\\\Users\\\\Noname\\\\leash up\\\\apps\\\\mobile\"; python -c \"\nwith open\\('lib/features/screens/gps_atlas_screen\\.dart', 'r', encoding='utf-8'\\) as f:\n    content = f\\.read\\(\\)\nidx = content\\.find\\('_bonusZones'\\)\nprint\\(repr\\(content\\[idx-60:idx\\+150\\]\\)\\)\n\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    },
+    "flutterTools.displayGetxContextMenu": false,
+    "flutterTools.displayMobxContextMenu": false,
+    "flutterTools.displayRiverpodContextMenu": false,
+    "flutterTools.displayModularContextMenu": false,
+    "flutterTools.displaySignalsContextMenu": false
+}
