@@ -1,7 +1,7 @@
 {
     "git.openRepositoryInParentFolders": "never",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "cmake.sourceDirectory": "C:/Users/Noname/leash up/apps/mobile/windows",
+    "cmake.sourceDirectory": "C:/Users/Noname/leash up/windows",
     "workbench.editorAssociations": {
         "*.svg": "default",
         "*.copilotmd": "vscode.markdown.preview.editor",

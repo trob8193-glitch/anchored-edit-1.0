@@ -77,6 +77,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   Future<void> _onContest() async {
     if (_selectedTerritory == null) return;
+    if (_selectedTerritory!.ownerId?.startsWith('npc_') ?? false) {
+      _showBattleDialog();
+      return;
+    }
     final firebaseReady = ref.read(firebaseAvailableProvider);
     final AppUser effectiveUser = firebaseReady
         ? (ref.read(authStateProvider).valueOrNull ??
@@ -270,6 +274,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         );
     if (mounted) setState(() => _selectedTerritory = null);
   }
+
+  @override
+  Widget build(BuildContext context) {
     final territoriesAsync = ref.watch(territoriesProvider);
     final posAsync = ref.watch(positionStreamProvider);
     final user = ref.watch(authStateProvider).valueOrNull;
@@ -482,7 +489,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 isLoading: claimState.isLoading,
                 isOwned: _selectedTerritory!.ownerId ==
                     (user?.uid ?? 'offline_guest'),
-                isNpcOwned: _selectedTerritory!.ownerId?.startsWith('npc_') ?? false,
                 canClaim: _isInRange(_selectedTerritory!),
                 isContested: _selectedTerritory!.isContested,
                 onClaim: _onAnchor,
@@ -492,6 +498,53 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _DiceResult extends StatelessWidget {
+  const _DiceResult({
+    required this.label,
+    required this.roll,
+    required this.color,
+  });
+
+  final String label;
+  final int roll;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: color,
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Container(
+          width: 46,
+          height: 46,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: color.withAlpha(24),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: color.withAlpha(120)),
+          ),
+          child: Text(
+            '$roll',
+            style: TextStyle(
+              color: color,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
