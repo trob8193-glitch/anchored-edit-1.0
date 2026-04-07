@@ -31,7 +31,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   // Deterministic colour from user uid
   int _colorFromUid(String uid) {
-    final hash = uid.codeUnits.fold(0, (p, c) => p + c);
+    final hash = uid.codeUnits.fold(0, (accumulator, codeUnit) => accumulator + codeUnit);
     final hue = (hash % 360).toDouble();
     return HSVColor.fromAHSV(1, hue, 0.8, 0.9).toColor().toARGB32();
   }
@@ -329,15 +329,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 // Pick the smallest territory whose circle contains the tap
                 Territory? hit;
                 double hitRadius = double.infinity;
-                for (final t in territories) {
-                  final d = const Distance().as(
+                for (final territory in territories) {
+                  final distanceMeters = const Distance().as(
                     LengthUnit.Meter,
                     point,
-                    LatLng(t.lat, t.lng),
+                    LatLng(territory.lat, territory.lng),
                   );
-                  if (d <= t.radiusMeters && t.radiusMeters < hitRadius) {
-                    hit = t;
-                    hitRadius = t.radiusMeters;
+                  if (distanceMeters <= territory.radiusMeters && territory.radiusMeters < hitRadius) {
+                    hit = territory;
+                    hitRadius = territory.radiusMeters;
                   }
                 }
                 // Only change selection when we have a positive hit.

@@ -93,10 +93,10 @@ class _BoardList extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: players.length,
-      itemBuilder: (ctx, i) {
-        final p = players[i];
-        final isMe = p.uid == currentUid;
-        final rank = i + 1;
+      itemBuilder: (context, index) {
+        final player = players[index];
+        final isMe = player.uid == currentUid;
+        final rank = index + 1;
 
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -116,7 +116,7 @@ class _BoardList extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    p.displayName,
+                    player.displayName,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: isMe ? AppTheme.primary : Colors.white,
@@ -140,13 +140,13 @@ class _BoardList extends StatelessWidget {
                   ),
               ],
             ),
-            subtitle: _TerritoryBreakdown(stats: p),
+            subtitle: _TerritoryBreakdown(stats: player),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${p.points}',
+                  '${player.points}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
@@ -233,7 +233,7 @@ class _LevelChip extends StatelessWidget {
   final String label;
   final TerritoryLevel level;
 
-  static Color _colorFor(TerritoryLevel l) => switch (l) {
+  static Color _colorFor(TerritoryLevel territoryLevel) => switch (territoryLevel) {
         TerritoryLevel.continent => const Color(0xFFFF6B35),
         TerritoryLevel.country => const Color(0xFF9B59B6),
         TerritoryLevel.state => const Color(0xFF3498DB),
