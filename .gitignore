@@ -32,6 +32,19 @@ node_modules/
 apps/mobile/.idea/
 apps/mobile/*.iml
 
+# apps/mobile generated platform ephemerals
+apps/mobile/linux/flutter/ephemeral/
+apps/mobile/macos/Flutter/ephemeral/
+apps/mobile/windows/flutter/ephemeral/
+
+# apps/mobile local signing/secrets
+apps/mobile/android/app/*.jks
+apps/mobile/android/key.properties
+apps/mobile/ios/signing/
+
+# local workspace lint config
+.markdownlint.json
+
 # Unrelated local sandboxes and generated outputs
 example/
 functions/
